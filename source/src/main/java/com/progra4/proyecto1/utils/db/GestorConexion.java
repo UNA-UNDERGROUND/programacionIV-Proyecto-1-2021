@@ -1,4 +1,4 @@
-package com.progra4.proyecto1.db;
+package com.progra4.proyecto1.utils.db;
 
 import java.sql.Connection;
 import java.sql.SQLException;
