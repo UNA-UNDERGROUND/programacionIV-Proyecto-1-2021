@@ -1,10 +1,8 @@
 package com.progra4.proyecto1.utils.dao;
 
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.progra4.proyecto1.utils.dao.crud.AbstractCRUD;
 import com.progra4.proyecto1.utils.db.ProyectoDAO;
@@ -17,18 +15,20 @@ public abstract class AbstractDAO<K, V> extends ProyectoDAO implements DAO<K, V>
 
     @Override
     public List<V> listAll(){
-        List<V> r = new ArrayList<>();
-        ResultSet rs = executeQuery(getCRUD().getListAllCmd(), new ArrayList<>());
+        List<V> vec = new ArrayList<>();
+        List<Map<String, Object>> rs = executeQuery(getCRUD().getListAllCmd(), new ArrayList<>());
         try{
-            while (rs.next()) {
-                r.add(getRecord(rs));
+            if(rs != null){
+                for (Map<String,Object> val : rs) {
+                    vec.add(getRecord(val));
+                }
             }
         }
-        catch(SQLException ex){
+        catch(Exception ex){
             System.err.println("Error: " + ex.getLocalizedMessage());
         }
         
-        return r;
+        return vec;
     }
 
     @Override
@@ -40,10 +40,10 @@ public abstract class AbstractDAO<K, V> extends ProyectoDAO implements DAO<K, V>
     public V retrieve(K id) {
         List<Object> params = new ArrayList<>();
         params.add(id);
-        ResultSet rs = executeQuery(getCRUD().getRetrieveCmd(), params);
+        List<Map<String, Object>> res = executeQuery(getCRUD().getRetrieveCmd(), params);
         try {
-            return rs.next() ? getRecord(rs) : null;
-        } catch (SQLException ex) {
+            return res != null && res.size() > 0 ? getRecord(res.get(0)): null;
+        } catch (Exception ex) {
             System.err.println("Error: " + ex.getLocalizedMessage());
         }
         return null;
@@ -61,7 +61,7 @@ public abstract class AbstractDAO<K, V> extends ProyectoDAO implements DAO<K, V>
         return executeUpdate(getCRUD().getDeleteCmd(), params);
     }
 
-    public abstract V getRecord(ResultSet rs);
+    public abstract V getRecord(Map<String, Object> rs);
 
     public abstract List<Object> getAddParameters(K id, V value);
 

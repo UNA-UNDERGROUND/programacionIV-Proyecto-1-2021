@@ -1,9 +1,8 @@
 package com.progra4.proyecto1.modelo.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.progra4.proyecto1.modelo.beans.Estado;
 import com.progra4.proyecto1.modelo.dao.CRUD.EstadoCRUD;
@@ -16,15 +15,14 @@ public class EstadoDAO extends AbstractDAO<Integer, Estado> {
     }
 
     @Override
-    public Estado getRecord(ResultSet rs) {
+    public Estado getRecord(Map<String, Object> val) {
         try {
             return new Estado(
-                    rs.getInt("id_estado"),
-                    rs.getString("descripcion")
+                    (Integer)val.get("id_estado"),
+                    (String)val.get("descripcion")
             );
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.err.println("Error: " + e.getLocalizedMessage());
-            e.printStackTrace();
         }
         return null;
     }

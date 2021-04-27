@@ -3,8 +3,12 @@ package com.progra4.proyecto1.utils.db;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -41,18 +45,29 @@ public class ProyectoDAO {
         return false;
     }
 
-    protected ResultSet executeQuery(String comando, List<Object> params){
-        try (Connection cnx = obtenerConexion();
-                PreparedStatement stm = cnx.prepareStatement(comando)) {
+    protected List<Map<String, Object>> executeQuery(String comando, List<Object> params) {
+        try (Connection cnx = obtenerConexion(); PreparedStatement stm = cnx.prepareStatement(comando)) {
             setParameters(stm, params);
             try (ResultSet rs = stm.executeQuery()) {
-                return rs;
+
+                List<Map<String, Object>> lista = new ArrayList<>();
+                if (rs != null) {
+                    ResultSetMetaData md = rs.getMetaData();
+                    int columnas = md.getColumnCount();
+                    Map<String, Object> row = new HashMap<>(columnas);
+                    while (rs.next()) {
+                        for (int i = 1; i <= columnas; ++i) {
+                            row.put(md.getColumnName(i), rs.getObject(i));
+                        }
+                    }
+                    lista.add(row);
+                }
+                return lista;
             } catch (Exception ex) {
-                System.err.println(ex.getMessage());
+                System.err.println(ex.getLocalizedMessage());
             }
         } catch (Exception ex) {
-            String error = ex.getLocalizedMessage();
-            System.err.println(error);
+            System.err.println(ex.getLocalizedMessage());
         }
         return null;
     }
