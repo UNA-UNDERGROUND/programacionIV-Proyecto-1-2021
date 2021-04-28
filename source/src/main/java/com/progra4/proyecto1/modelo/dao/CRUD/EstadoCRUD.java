@@ -35,22 +35,26 @@ public class EstadoCRUD extends AbstractCRUD {
         = "estado ";
     protected static final String ID_FIELD
         = "id_estado ";
+    protected static final String UPDATE_PARAMS
+        = "id_estado = ?, descripcion = ? ";
+    protected static final String VALUES_STRING
+        = "?, ?";
+
     protected static final String LIST_CMD
             = "SELECT "
             + PARAMS_LIST
             + "FROM eif209_2021_01." + TABLE_NAME + " ORDER BY " + ID_FIELD +"; ";
-    
     protected static final String ADD_CMD
             = "INSERT INTO eif209_2021_01." + TABLE_NAME
             + "(" + PARAMS_LIST + ") "
-            + "VALUES (?, ?); ";
+            + "VALUES (" + VALUES_STRING + "); ";
     protected static final String RETRIEVE_CMD
             = "SELECT "
             + PARAMS_LIST
             + "FROM eif209_2021_01." + TABLE_NAME + " WHERE " + ID_FIELD + " = ?; ";
     protected static final String UPDATE_CMD
             = "UPDATE eif209_2021_01." + TABLE_NAME 
-            + "SET id_estado = ?, descripcion = ? "
+            + "SET " + UPDATE_PARAMS + " "
             + "WHERE " + ID_FIELD +" = ?; ";
     protected static final String DELETE_CMD
             = "DELETE FROM eif209_2021_01." + TABLE_NAME
