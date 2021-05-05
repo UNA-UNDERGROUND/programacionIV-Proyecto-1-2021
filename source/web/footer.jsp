@@ -2,6 +2,6 @@
 
 <footer class="footer-main-cotainer">
         <p class="footer-parragraph">
-            Todos los derechos reservados desde 2021. Copyright©.
+            Creado por Dorian Vallecillo, Jonathan Guzm√°n, todos los derechos reservados (2021).
         </p>
 </footer>
