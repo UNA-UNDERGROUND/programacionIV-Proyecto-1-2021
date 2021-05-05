@@ -5,19 +5,12 @@
 la base de datos se conecta con las credenciales proporcionadas en su archivo de manifiesto, localizado en
 
 ```
-/source/src/main/resources/configuraciones/credenciales-bd.properties
+/source/src/java/db.properties
 
-📦backend
- ┣ 📂src
- ┃ ┣ 📂main
- ┃ ┃ ┣ 📂java
- ┃ ┃ ┗ 📂resources
- ┃ ┃ ┃ ┗ 📂configuraciones
- ┃ ┃ ┃ ┃ ┗ 📜credenciales-bd.properties
- ┃ ┗ 📂test
- ┣ 📜.gitignore
- ┣ 📜nbactions.xml
- ┗ 📜pom.xml
+📦source
+ ┗📂src
+  ┗ 📂java
+    ┗ 📜db.properties
 ```
 
 puede modificarse este archivo para usar las credenciales correctas, o agregar
@@ -35,9 +28,4 @@ GRANT ALL PRIVILEGES ON eif209_2021_01.* TO 'admin'@'%';
 
 ## dependencias del proyecto
 
-Finalmente el Proyecto usa maven por lo que el solo genera su lista de
-dependencias y las agrega, las dependencias son las siguientes en caso de ser requeridas
-
-- mysql-connector-java-8.0.18.jar  (Driver JDBC)
-- protobuf-java-3.6.1.jar          (Requerido por JDBC)
-- javaee-api-8.0.jar               (requerido por los jsp y servlets)
+Finalmente el Proyecto usa ant y incluye las dependencias requeridas en la carpeta source/Librerias JAR
