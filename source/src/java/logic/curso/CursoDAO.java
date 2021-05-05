@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.http.HttpServletRequest;
 import logic.Database;
 
 public class CursoDAO {
@@ -18,17 +17,17 @@ public class CursoDAO {
     private CursoDAO() {
         db = Database.instance();
     }
-    
-    public List<CursoActual> listarCursosActuales(int idEstudiante) throws SQLException{
+
+    public List<CursoActual> listarCursosActuales(int idEstudiante) throws SQLException {
         ArrayList<CursoActual> listaCursos = new ArrayList<>();
-        
-        try(PreparedStatement stm = db.prepareStatement(CursoCRUD.CMD_LISTAR_CURSOS_ACTUALES)){
-            
+
+        try (PreparedStatement stm = db.prepareStatement(CursoCRUD.CMD_LISTAR_CURSOS_ACTUALES)) {
+
             stm.clearParameters();
             stm.setInt(1, idEstudiante);
-            
-            try(ResultSet result = stm.executeQuery()){
-                while(result.next()){
+
+            try (ResultSet result = stm.executeQuery()) {
+                while (result.next()) {
                     String nombre = result.getString(1);
                     int codigoGrupo = result.getInt(2);
                     String nombreProfesor = result.getString(3);
@@ -36,51 +35,49 @@ public class CursoDAO {
                     String horario = result.getString(5);
                     int nota = result.getInt(6);
                     String notaString = nota != 0 ? String.valueOf(nota) : "N/A";
-                    
+
                     CursoActual cursoActual = new CursoActual(nombre, codigoGrupo,
-                    nombreProfesor, apellidoProfesor, horario, notaString);
-                    
+                            nombreProfesor, apellidoProfesor, horario, notaString);
+
                     listaCursos.add(cursoActual);
                 }
                 return listaCursos;
             }
-        }
-        catch(Exception ex){
-            ex.printStackTrace();
-            return null;
-        }      
-        
-    }
-    
-    public Service listarCursosProfesor(int idProfesor) throws SQLException{
-        Service listaCursos = new Service();
-        
-        try(PreparedStatement stm = db.prepareStatement(CursoCRUD.CMD_LISTAR_CURSOS_PROFESOR)){
+        } catch (Exception ex) {
             
+            return null;
+        }
+
+    }
+
+    public Service listarCursosProfesor(int idProfesor) throws SQLException {
+        Service listaCursos = new Service();
+
+        try (PreparedStatement stm = db.prepareStatement(CursoCRUD.CMD_LISTAR_CURSOS_PROFESOR)) {
+
             stm.clearParameters();
             stm.setInt(1, idProfesor);
-            
-            try(ResultSet result = stm.executeQuery()){
-                while(result.next()){
+
+            try (ResultSet result = stm.executeQuery()) {
+                while (result.next()) {
                     int codigo = result.getInt(1);
                     String nombre = result.getString(2);
                     String tematica = result.getString(3);
                     String costo = result.getString(4);
                     int oferta = result.getInt(5);
-                    
+
                     Curso curso = new Curso(codigo, nombre,
-                    tematica, costo, oferta);
-                    
+                            tematica, costo, oferta);
+
                     listaCursos.cursosAdd(curso);
                 }
                 return listaCursos;
             }
-        }
-        catch(Exception ex){
-            ex.printStackTrace();
+        } catch (Exception ex) {
+            
             return listaCursos;
-        }      
-        
+        }
+
     }
 
     public static CursoDAO obtenerInstancia() {
@@ -93,8 +90,6 @@ public class CursoDAO {
     public void crear(Curso c) throws Exception {
 
         PreparedStatement stm = Database.instance().prepareStatement(CursoCRUD.CMD_AGREGAR);
-
-        
 
         stm.setString(1, c.getNombre());
         stm.setString(2, c.getTematica());
@@ -135,34 +130,35 @@ public class CursoDAO {
         }
         return resultado;
     }
-    
-    public Service buscarPorNombre(String nombre){
+
+    public Service buscarPorNombre(String nombre) {
         try {
             Service service = new Service();
             Connection connection = db.getConnection();
             PreparedStatement stm = connection.prepareStatement(CursoCRUD.CMD_BUSCAR_NOMBRE);
             stm.clearParameters();
-            stm.setString(1, "%"+nombre+"%");
+            stm.setString(1, "%" + nombre + "%");
             ResultSet result = stm.executeQuery();
-            
-            while(result.next()){
+
+            while (result.next()) {
                 int codigo = result.getInt("codigo");
                 String nombreCurso = result.getString("nombre");
                 String costo = result.getString("costo");
                 int oferta = result.getInt("oferta");
-                
+
                 Curso curso = new Curso();
                 curso.setCodigo(codigo);
                 curso.setNombre(nombreCurso);
                 curso.setCosto(costo);
                 curso.setOferta(oferta);
-                
-                if (oferta == 1)
+
+                if (oferta == 1) {
                     service.cursos.add(curso);
+                }
             }
             return service;
         } catch (SQLException | URISyntaxException | IOException ex) {
-            ex.printStackTrace();
+            
             Logger.getLogger(CursoDAO.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
@@ -196,7 +192,7 @@ public class CursoDAO {
         return listaCursos;
 
     }
-    
+
     public Service listarCursosEnOferta() {
         Service listaCursos = new Service();
         Curso auxCurso;
@@ -211,8 +207,9 @@ public class CursoDAO {
                             rs.getString("costo"),
                             rs.getInt("oferta")
                     );
-                    if (auxCurso.getOferta() == 1)
+                    if (auxCurso.getOferta() == 1) {
                         listaCursos.cursosAdd(auxCurso);
+                    }
                 }
             } catch (Exception ex) {
                 Logger.getLogger(CursoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -239,16 +236,13 @@ public class CursoDAO {
 
     public void actualizar(Curso p) throws Exception {
 
-
         PreparedStatement stm = Database.instance().prepareStatement(CursoCRUD.CMD_ACTUALIZAR);
-      
+
         stm.setString(1, p.getNombre());
         stm.setString(2, p.getTematica());
         stm.setString(3, p.getCosto());
         stm.setInt(4, p.getOferta());
         stm.setInt(5, p.getCodigo());
-        
-       
 
         int count = Database.instance().executeUpdate(stm);
         if (count == 0) {
@@ -256,6 +250,6 @@ public class CursoDAO {
         }
     }
 
-    private Database db;
+    private final Database db;
     private static CursoDAO instancia;
 }

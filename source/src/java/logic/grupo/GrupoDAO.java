@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import logic.Database;
-import logic.matricula.MatriculaCRUD;
 import logic.usuario.estudiante.Estudiante;
 
 public class GrupoDAO {
@@ -60,7 +59,7 @@ public class GrupoDAO {
             listaGrupos = new Service();
             int codigoCursoInt = Integer.parseInt(codigoCurso);
             Connection connection = db.getConnection();
-            PreparedStatement stm = connection.prepareStatement(GrupoCRUD.CMD_Listar_CODIGO);
+            PreparedStatement stm = connection.prepareStatement(GrupoCRUD.CMD_LISTAR_CODIGO);
             stm.setInt(1, codigoCursoInt);
             ResultSet result = stm.executeQuery();
             while (result.next()) {
@@ -72,9 +71,8 @@ public class GrupoDAO {
             Logger.getLogger(GrupoDAO.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-        //return listaGrupos;
     }
-    
+
     public Service listarGrupos(int idProfesor) {
         Service listaGrupos;
         try {
@@ -85,13 +83,13 @@ public class GrupoDAO {
             ResultSet result = stm.executeQuery();
             while (result.next()) {
                 Grupo aux = new Grupo();
-                
+
                 int cedula = result.getInt(1);
                 String horario = result.getString(2);
-                
+
                 aux.setCodigo(cedula);
                 aux.setFecha(horario);
-                
+
                 listaGrupos.gruposAdd(aux);
             }
             return listaGrupos;
@@ -99,10 +97,7 @@ public class GrupoDAO {
             Logger.getLogger(GrupoDAO.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-        //return listaGrupos;
     }
-    
-    
 
     public Service listarGrupos() {
 
@@ -132,8 +127,7 @@ public class GrupoDAO {
         return listaGrupos;
 
     }
-    
-    
+
     public void matricular(int idGrupo, int idEstudiante) throws Exception {
 
         PreparedStatement stm = Database.instance().prepareStatement(GrupoCRUD.CMD_MATRICULAR);
@@ -175,7 +169,7 @@ public class GrupoDAO {
 
         PreparedStatement stm = Database.instance().prepareStatement(GrupoCRUD.CMD_ACTUALIZARG);
         stm.setInt(1, g.getCurso_codigo());
-        stm.setInt(2, g.getProfesor_idPreofesor());
+        stm.setInt(2, g.getProfesor_idProfesor());
         stm.setString(3, g.getFecha());
         stm.setInt(4, g.getCodigo());
 
@@ -184,7 +178,7 @@ public class GrupoDAO {
             throw new Exception("xxxxxxxxxxxxxxxxxxxx");
         }
     }
-    
+
     public logic.usuario.estudiante.Service listarEstudiatesGrupo(int idGrupo) {
         logic.usuario.estudiante.Service listaEstudiantes;
         try {
@@ -195,19 +189,19 @@ public class GrupoDAO {
             ResultSet result = stm.executeQuery();
             while (result.next()) {
                 Estudiante aux = new Estudiante();
-                
+
                 int cedula = result.getInt(1);
                 String nombre = result.getString(2);
                 String apellido1 = result.getString(3);
                 String apellido2 = result.getString(4);
                 int nota = result.getInt(5);
-                
+
                 aux.setCedula(cedula);
                 aux.setNombre(nombre);
                 aux.setApellido1(apellido1);
                 aux.setApellido2(apellido2);
                 aux.setNota(nota);
-                
+
                 listaEstudiantes.estudiantesAdd(aux);
             }
             return listaEstudiantes;
@@ -215,9 +209,8 @@ public class GrupoDAO {
             Logger.getLogger(GrupoDAO.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-        //return listaGrupos;
     }
-    
+
     public void crearGrupo(Grupo g) throws Exception {
 
         PreparedStatement stm = Database.instance().prepareStatement(GrupoCRUD.CMD_AGREGAR);
@@ -226,15 +219,14 @@ public class GrupoDAO {
 //        stm.setInt(3, g.getProfesor_idPreofesor());
 //        stm.setString(4, g.getFecha());
         stm.setInt(1, g.getCurso_codigo());
-        stm.setInt(2, g.getProfesor_idPreofesor());
+        stm.setInt(2, g.getProfesor_idProfesor());
         stm.setString(3, g.getFecha());
-        
 
         int count = Database.instance().executeUpdate(stm);
         if (count == 0) {
             throw new Exception("xxxxxxxxxxxxxxxxxxxx");
         }
     }
-    private Database db;
+    private final Database db;
     private static GrupoDAO instancia;
 }

@@ -1,10 +1,7 @@
-
 package logic.usuario.profesor;
-
 
 import java.util.ArrayList;
 import java.util.List;
-import logic.usuario.profesor.Profesor;
 
 public class Service {
 

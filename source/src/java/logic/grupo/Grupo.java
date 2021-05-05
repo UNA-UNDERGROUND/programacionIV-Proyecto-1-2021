@@ -1,12 +1,11 @@
 package logic.grupo;
 
-import javax.servlet.http.HttpServletRequest;
 
 public class Grupo {
 
     int codigo;
     int Curso_codigo;
-    int profesor_idPreofesor;
+    int profesor_idProfesor;
     String fecha;
 
     public Grupo() {
@@ -15,7 +14,7 @@ public class Grupo {
     public Grupo(int codigo, int Curso_codigo, int profesor_idPreofesor, String fecha) {
         this.codigo = codigo;
         this.Curso_codigo = Curso_codigo;
-        this.profesor_idPreofesor = profesor_idPreofesor;
+        this.profesor_idProfesor = profesor_idPreofesor;
         this.fecha = fecha;
     }
 
@@ -38,8 +37,8 @@ public class Grupo {
         return Curso_codigo;
     }
 
-    public int getProfesor_idPreofesor() {
-        return profesor_idPreofesor;
+    public int getProfesor_idProfesor() {
+        return profesor_idProfesor;
     }
 
     public String getFecha() {
@@ -54,8 +53,8 @@ public class Grupo {
         this.Curso_codigo = Curso_codigo;
     }
 
-    public void setProfesor_idPreofesor(int profesor_idPreofesor) {
-        this.profesor_idPreofesor = profesor_idPreofesor;
+    public void setProfesor_idProfesor(int profesor_idProfesor) {
+        this.profesor_idProfesor = profesor_idProfesor;
     }
 
     public void setFecha(String fecha) {

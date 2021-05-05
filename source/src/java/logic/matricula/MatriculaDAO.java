@@ -1,4 +1,3 @@
-
 package logic.matricula;
 
 import java.io.IOException;
@@ -11,10 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import logic.Database;
-import logic.matricula.Matricula;
-import logic.matricula.MatriculaCRUD;
-import logic.matricula.Service;
-
 
 public class MatriculaDAO {
 
@@ -40,7 +35,7 @@ public class MatriculaDAO {
                     if (rs.next()) {
                         resultado = new Matricula(
                                 rs.getInt("Curso_Codigo"),
-                                rs.getInt("estudiante_idEstudiante")  
+                                rs.getInt("estudiante_idEstudiante")
                         );
                     }
                 }
@@ -65,7 +60,6 @@ public class MatriculaDAO {
                     auxMatricula = new Matricula(
                             rs.getInt("Curso_Codigo"),
                             rs.getInt("estudiante_idEstudiante")
-                           
                     );
 
                     listaMatriculas.matriculaAdd(auxMatricula);
@@ -81,25 +75,23 @@ public class MatriculaDAO {
         return listaMatriculas;
 
     }
-    
-    
-    public void matricular(HttpServletRequest request) throws Exception{
-    
-     PreparedStatement stm = Database.instance().prepareStatement(MatriculaCRUD.CMD_AGREGAR);
-        int aux= Integer.parseInt(request.getParameter("Curso_Codigo"));
-        int aux2=Integer.parseInt(request.getParameter("estudiante_idEstudiante"));
-       
+
+    public void matricular(HttpServletRequest request) throws Exception {
+
+        PreparedStatement stm = Database.instance().prepareStatement(MatriculaCRUD.CMD_AGREGAR);
+        int aux = Integer.parseInt(request.getParameter("Curso_Codigo"));
+        int aux2 = Integer.parseInt(request.getParameter("estudiante_idEstudiante"));
+
         stm.setInt(1, aux);
         stm.setInt(2, aux2);
-        
+
         int count = Database.instance().executeUpdate(stm);
         if (count == 0) {
             throw new Exception("xxxxxxxxxxxxxxxxxxxx");
         }
-    
-    }
-    
 
-    private Database db;
+    }
+
+    private final Database db;
     private static MatriculaDAO instancia;
 }

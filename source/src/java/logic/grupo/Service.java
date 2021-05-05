@@ -2,7 +2,6 @@ package logic.grupo;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 
 public class Service {
 
@@ -16,12 +15,8 @@ public class Service {
         grupos.add(grupo);
     }
 
-    
-    
     public List<Grupo> gruposList() {
         return grupos;
     }
 
-    
-    
 }

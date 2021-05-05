@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller.Profesores;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,50 +11,37 @@ import logic.usuario.Usuario;
 import logic.usuario.estudiante.Estudiante;
 import logic.usuario.estudiante.EstudianteDAO;
 
-/**
- *
- * @author flore
- */
 @WebServlet(name = "Estudiantes", urlPatterns = {
-    "/Profesor/EstudiantesShow", 
-    "/Profesor/CalificarEstudianteShow", 
+    "/Profesor/EstudiantesShow",
+    "/Profesor/CalificarEstudianteShow",
     "/Profesor/CalificarEstudianteAction"
 })
 public class Estudiantes extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String URL = "";
         switch (request.getServletPath()) {
-            case"/Profesor/EstudiantesShow":{
+            case "/Profesor/EstudiantesShow": {
                 URL = estudiatesShow(request);
                 break;
             }
-            case "/Profesor/CalificarEstudianteShow":{
+            case "/Profesor/CalificarEstudianteShow": {
                 URL = calificarEstudiateShow(request);
                 break;
             }
-            case "/Profesor/CalificarEstudianteAction":{
+            case "/Profesor/CalificarEstudianteAction": {
                 URL = calificarEstudiateAction(request, response);
                 break;
             }
-            
 
         }
-        if (URL != null)
+        if (URL != null) {
             request.getRequestDispatcher(URL).forward(request, response);
+        }
     }
-    
+
     Boolean verificar(HttpServletRequest request) {
         Usuario usuario = (Usuario) request.getSession().getAttribute("usr");
         return usuario.getClass().getSimpleName().equals("Profesor");
@@ -81,18 +62,17 @@ public class Estudiantes extends HttpServlet {
                     }
                     throw new Exception("Error al obtener de la base de datos");
                 } catch (Exception e) {
-                    e.printStackTrace();
                     return "/CursoDisplay";
                 }
             }
             throw new Exception("Debe iniciar sesion como profesor");
 
         } catch (Exception e) {
-            e.printStackTrace();
+
             return "/loginShow";
         }
     }
-    
+
     private String calificarEstudiateShow(HttpServletRequest request) {
         try {
             if (verificar(request)) {
@@ -101,12 +81,12 @@ public class Estudiantes extends HttpServlet {
                     String idEstudianteString = request.getParameter("idEstudiante");
                     int idEstudiante = Integer.valueOf(idEstudianteString);
                     String idGrupo = request.getParameter("idGrupo");
-                    
-                    estudiante = EstudianteDAO.obtenerInstancia().recuperar(idEstudiante);   
-                    
+
+                    estudiante = EstudianteDAO.obtenerInstancia().recuperar(idEstudiante);
+
                     int nota = EstudianteDAO.obtenerInstancia().recuperarNota(estudiante.getCedula());
                     estudiante.setNota(nota);
-                    
+
                     if (estudiante != null) {
                         request.setAttribute("estudiante", estudiante);
                         request.setAttribute("idGrupo", idGrupo);
@@ -114,86 +94,63 @@ public class Estudiantes extends HttpServlet {
                     }
                     throw new Exception("Error al obtener de la base de datos");
                 } catch (Exception e) {
-                    e.printStackTrace();
+
                     return "/CursoDisplay";
                 }
             }
             throw new Exception("Debe iniciar sesion como profesor");
 
         } catch (Exception e) {
-            e.printStackTrace();
+
             return "/loginShow";
         }
     }
 
-        
     private String calificarEstudiateAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             if (verificar(request)) {
                 try {
-                    
+
                     String idEstudianteString = request.getParameter("idEstudiante");
                     int idEstudiante = Integer.valueOf(idEstudianteString);
                     String idGrupoString = request.getParameter("idGrupo");
                     int IdGrupo = Integer.valueOf(idGrupoString);
                     String notaString = request.getParameter("nota");
                     int nota = Integer.valueOf(notaString);
-                    
-                    if (idEstudiante != 0 && IdGrupo != 0 && nota != 0){
+
+                    if (idEstudiante != 0 && IdGrupo != 0 && nota != 0) {
                         EstudianteDAO.obtenerInstancia().actualizarNota(idEstudiante, IdGrupo, nota);
-                        
+
                         return "/Profesor/EstudiantesShow?idGrupo" + idGrupoString;
-                    }
-                    else
+                    } else {
                         throw new Exception("Error al obtener de la base de datos");
+                    }
                 } catch (Exception e) {
-                    e.printStackTrace();
+
                     return "/CursoDisplay";
                 }
-            }
-            else
+            } else {
                 throw new Exception("Debe iniciar sesion como profesor");
+            }
 
         } catch (Exception e) {
-            e.printStackTrace();
+
             return "/loginShow";
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";

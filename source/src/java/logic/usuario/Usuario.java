@@ -22,8 +22,6 @@ public class Usuario {
         this.numero = numero;
         this.password = password;
     }
-    
-    
 
     public Usuario(int cedula, String nombre, String apellido1, String apellido2, String correo, String numero, String password) {
         this.cedula = cedula;

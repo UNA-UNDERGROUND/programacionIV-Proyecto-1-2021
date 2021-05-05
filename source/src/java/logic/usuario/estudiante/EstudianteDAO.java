@@ -1,7 +1,5 @@
 package logic.usuario.estudiante;
 
-import logic.usuario.estudiante.EstudianteCRUD;
-import logic.usuario.estudiante.Estudiante;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.Connection;
@@ -12,9 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import logic.Database;
-import logic.matricula.MatriculaCRUD;
-import logic.matricula.Matricula;
-import logic.matricula.MatriculaDAO;
 import logic.matricula.Service;
 
 public class EstudianteDAO {
@@ -155,15 +150,7 @@ public class EstudianteDAO {
         return resultado;
         
     } 
-    
-    
-//    public void updatePassword(HttpServletRequest request) throws Exception {
-//
-//        PreparedStatement stm = Database.instance().prepareStatement(EstudianteCRUD.CMD_ACTUALIZARPass);
-//        stm.setInt(1, (int) request.getAttribute("idEstudiante"));
-//        stm.setString(2, (String) request.getAttribute("password"));
-//    }
 
-    private Database db;
+    private final Database db;
     private static EstudianteDAO instancia;
 }

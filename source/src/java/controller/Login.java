@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import java.io.IOException;
@@ -23,21 +18,12 @@ import logic.usuario.profesor.ProfesorDAO;
 @WebServlet(name = "Login", urlPatterns = {"/Login", "/Logout", "/loginShow", "/Error"})
 public class Login extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         Model model = new Model();
         request.setAttribute("model", model);
-        String URL = "";
+        String URL;
 
         switch (request.getServletPath()) {
             case "/Login": {
@@ -73,16 +59,13 @@ public class Login extends HttpServlet {
             errores = this.validar(request);
             if (errores.isEmpty()) {
                 this.updateModel(request);
-                //return "/presentation/login/login.jsp";
                 return "/Login";
             } else {
                 request.setAttribute("errores", errores);
-                //return "/presentation/login/login.jsp";
                 return "/Login";
             }
         } catch (Exception e) {
             request.setAttribute("errores", errores);
-            //return "/presentation/login/login.jsp";
             return "/Login";
         }
     }
@@ -101,7 +84,7 @@ public class Login extends HttpServlet {
             String a = request.getParameter("usernameText");
             int auz = Integer.parseInt(a);
 
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             errores.put("usernameText", "No se aceptan letras en el ID");
         }
 
@@ -167,7 +150,6 @@ public class Login extends HttpServlet {
                 if (passA.equals(passB)) {
                     session.setAttribute("usr", DBuser);
                     response.sendRedirect("/CursosLibres/CursoDisplay");
-                    //return "/CursoDisplay";
 
                 } else {
                     DBuser = null;
@@ -179,7 +161,6 @@ public class Login extends HttpServlet {
                     if (DBuser.getPassword().equals(model.getUsr().getPassword())) {
                         session.setAttribute("usr", DBuser);
                         response.sendRedirect("/CursosLibres/CursoDisplay");
-                        //return "/CursoDisplay";
 
                     } else {
                         DBuser = null;
@@ -190,7 +171,6 @@ public class Login extends HttpServlet {
                         if (DBuser.getPassword().equals(model.getUsr().getPassword())) {
                             session.setAttribute("usr", DBuser);
                             response.sendRedirect("/CursosLibres/CursoDisplay");
-                            //return "/CursoDisplay";
 
                         } else {
                             DBuser = null;
@@ -210,48 +190,25 @@ public class Login extends HttpServlet {
 
         }
 
-//        return "/CursoDiaplay";
         return null;
 
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
 }

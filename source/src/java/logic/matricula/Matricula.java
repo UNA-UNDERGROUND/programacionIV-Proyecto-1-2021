@@ -1,8 +1,7 @@
-
 package logic.matricula;
 
-
 public class Matricula {
+
     int Codigo_curso;
     int Estudiante_idEstudiante;
 
@@ -29,5 +28,5 @@ public class Matricula {
     public void setEstudiante_idEstudiante(int Estudiante_idEstudiante) {
         this.Estudiante_idEstudiante = Estudiante_idEstudiante;
     }
-    
+
 }

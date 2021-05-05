@@ -5,7 +5,7 @@ public class GrupoCRUD {
     protected static final String CMD_LISTAR
             = "SELECT * FROM grupo";
 
-    protected static final String CMD_Listar_CODIGO = "SELECT * from grupo WHERE Curso_codigo = ?;";
+    protected static final String CMD_LISTAR_CODIGO = "SELECT * from grupo WHERE Curso_codigo = ?;";
 
     protected static final String CMD_AGREGAR
             = "INSERT INTO grupo (Curso_codigo, profesor_idProfesor, fecha) "

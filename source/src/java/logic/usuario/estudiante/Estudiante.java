@@ -10,8 +10,6 @@ public class Estudiante extends Usuario{
         this.direccion = direccion;
     }
     
-    
-    
     public Estudiante() {
         
     }
@@ -32,10 +30,6 @@ public class Estudiante extends Usuario{
         this.nota = nota;
     }
     
-    
-    
     private String direccion;
     private int nota;
-    
-    
 }

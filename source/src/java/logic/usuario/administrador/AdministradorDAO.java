@@ -1,4 +1,3 @@
-
 package logic.usuario.administrador;
 
 import java.io.IOException;
@@ -11,20 +10,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import logic.Database;
 
-
 public class AdministradorDAO {
-    
-    
-    private AdministradorDAO(){
+
+    private AdministradorDAO() {
         db = Database.instance();
     }
-    
-    public static AdministradorDAO obtenerInstancia(){
-        if (instancia == null)
+
+    public static AdministradorDAO obtenerInstancia() {
+        if (instancia == null) {
             instancia = new AdministradorDAO();
+        }
         return instancia;
     }
-    
+
     public Administrador recuperar(int id) {
         Administrador resultado = null;
         try {
@@ -55,7 +53,7 @@ public class AdministradorDAO {
         }
         return resultado;
     }
-    
-    private Database db;
+
+    private final Database db;
     private static AdministradorDAO instancia;
 }

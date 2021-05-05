@@ -1,15 +1,12 @@
 package logic.curso;
 
-
-
-
 public class Curso {
-    
-     int codigo;
-     String nombre;
-     String tematica;
-     String costo;
-     int oferta;
+
+    int codigo;
+    String nombre;
+    String tematica;
+    String costo;
+    int oferta;
 
     public Curso() {
     }
@@ -35,7 +32,7 @@ public class Curso {
         this.costo = costo;
         this.oferta = oferta;
     }
-    
+
     public int getCodigo() {
         return codigo;
     }
@@ -75,5 +72,5 @@ public class Curso {
     public void setOferta(int oferta) {
         this.oferta = oferta;
     }
-     
+
 }
