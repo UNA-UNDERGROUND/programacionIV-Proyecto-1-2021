@@ -8,7 +8,7 @@ public class Service {
     List<Curso> cursos;
 
     public Service() {
-        cursos = new ArrayList();
+        cursos = new ArrayList<Curso>();
     }
 
     public void cursosAdd(Curso curso) {

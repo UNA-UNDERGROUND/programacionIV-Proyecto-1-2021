@@ -8,7 +8,7 @@ public class Service {
     List<Estudiante> estudiantes;
 
     public Service() {
-        estudiantes = new ArrayList();
+        estudiantes = new ArrayList<Estudiante>();
     }
 
     public void estudiantesAdd(Estudiante curso) {

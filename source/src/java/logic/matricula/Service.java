@@ -9,7 +9,7 @@ public class Service {
     List<Matricula> matriculas;
 
     public Service() {
-        matriculas = new ArrayList();
+        matriculas = new ArrayList<Matricula>();
     }
 
     public void matriculaAdd(Matricula matricula) {

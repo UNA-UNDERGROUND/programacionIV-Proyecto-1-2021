@@ -8,7 +8,7 @@ public class Service {
     List<Grupo> grupos;
 
     public Service() {
-        grupos = new ArrayList();
+        grupos = new ArrayList<Grupo>();
     }
 
     public void gruposAdd(Grupo grupo) {
